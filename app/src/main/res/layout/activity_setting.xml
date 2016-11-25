@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.truemind.ecpe.SettingActivity"
+    android:orientation="vertical"
+    android:background="@mipmap/setting_back2"
+    android:weightSum="1">
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.3083"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText1"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText2"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText3"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText4"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText5"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText6"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText7"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0146"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="12"
+            android:maxLength="12"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText8"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.4985"
+            android:hint="Data(12 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.1467"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0254"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.0506"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.3548"/>
+
+        <EditText
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="5"
+            android:maxLength="5"
+            android:digits="01"
+            android:textSize="5pt"
+            android:id="@+id/editText9"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.2364"
+            android:hint="(5 bits)"/>
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.4088"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.0397"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.038"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.066"/>
+
+        <ImageButton
+            android:onClick="onClick"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.292"
+            android:id="@+id/setting_btn1"
+            android:background="@drawable/setting_btn1" />
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.284"/>
+
+        <ImageButton
+            android:onClick="onClick"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.292"
+            android:id="@+id/setting_btn2"
+            android:background="@drawable/setting_btn2" />
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="0.066"/>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="0px"
+        android:layout_weight="0.031"/>
+
+</LinearLayout>
