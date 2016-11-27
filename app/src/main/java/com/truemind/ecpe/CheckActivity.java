@@ -50,15 +50,60 @@ public class CheckActivity extends Activity {
         data7 = intent1.getStringExtra("data7");
         data8 = intent1.getStringExtra("data8");
         divisor = intent1.getStringExtra("divisor");
+//--------------------------------------------------------------------------------------------------console log
+        Log.d("MyTag", "data1:"+ data1);
+        Log.d("MyTag", "data2:"+ data2);
+        Log.d("MyTag", "data3:"+ data3);
+        Log.d("MyTag", "data4:"+ data4);
+        Log.d("MyTag", "data5:"+ data5);
+        Log.d("MyTag", "data6:"+ data6);
+        Log.d("MyTag", "data7:"+ data7);
+        Log.d("MyTag", "data8:"+ data8);
+        Log.d("MyTag", "data9:"+ divisor);
+
 
 //--------------------------------------------------------------------------------------------------Array initializing
-        String dataArray[] = {data1, data2, data2, data3, data4, data4, data5, data6, data7, data8};
+
+        /*String dataArray[] = {data1, data2, data2, data3, data4, data4, data5, data6, data7, data8};
         for(int j = 0; j<8; j++) {
             for (int i = 0; i < 12; i++) {
-                dataIntArray[j][i] = (Integer.valueOf(dataArray[j].charAt(i))-48);
+                dataIntArray[j][i] = (Atoi(dataArray[j].charAt(i)));
+            }*/
+//--------------------------------------------------------------------------------------------------
+        //위와 같이 dataArray를 이용하여 처리할 시 에러 발생
+        //2번째, 3번째가 같거나(중복) 마지막이 다른것으로 바뀌는(스크램블)되는 현상 발견
+        //따라서 dataArray스트링배열을 제거하고 for문을 사용하지 않는 경우 이런 현상이 제거됨.
+        //원인은 나중에....(예상되는 원인은 for문의 속도와 데이터 연산 속도의 차이 때문으로 예상됨--> 버퍼 필요!)
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[0][i] = (Atoi(data1.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[1][i] = (Atoi(data2.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[2][i] = (Atoi(data3.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[3][i] = (Atoi(data4.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[4][i] = (Atoi(data5.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[5][i] = (Atoi(data6.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[6][i] = (Atoi(data7.charAt(i)));
+        }
+        for (int i = 0; i < 12; i++) {
+            dataIntArray[7][i] = (Atoi(data8.charAt(i)));
+        }
+        for(int j = 0; j<8; j++) {
+            for(int j2 = 0; j2<12; j2++) {
+                Log.d("MyTag", "dataIntArray" + j + ": " + dataIntArray[j][j2]);
             }
         }
-
+//--------------------------------------------------------------------------------------------------
         for(int j = 0; j<8; j++) {
             for(int i = 12; i<17; i++){
                 dataIntArray[j][i] = 0;
@@ -94,9 +139,15 @@ public class CheckActivity extends Activity {
             }
             for (int j = 0; j < 4; j++) {
                 crcIntArray[i][j] = tempArray[j];
-                Log.d("MyTag", "crc:"+i+j + crcIntArray[i][j]);
+                Log.d("MyTag", "crc:" + i + j + ": " + crcIntArray[i][j]);
+            }
+            for(int j = 0; j<12; j++) {
+                Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j]);
             }
 //--------------------------------------------------------------------------------------------------코드워드 String으로
+        }
+
+        for(int i = 0; i<8; i++){
             for(int j2 = 0; j2<12; j2++){
                 codeWord[i] +=  dataIntArray[i][j2];
             }
@@ -105,6 +156,7 @@ public class CheckActivity extends Activity {
             }
             Log.d("MyTag", "codeword"+i+": "+ codeWord[i]);
         }
+
         initListener();
   }
 
@@ -123,7 +175,7 @@ public class CheckActivity extends Activity {
         textview8 = (TextView) findViewById(R.id.textView8);
 
     }
-
+//--------------------------------------------------------------------------------------------------
     private void initListener() {
         textview8.setText("  "+codeWord[0]);
         textview1.setText("  "+codeWord[1]);
@@ -152,7 +204,7 @@ public class CheckActivity extends Activity {
                 finish();
             }
         });
-
+//--------------------------------------------------------------------------------------------------
     }
     @Override
     public void onBackPressed() {
@@ -160,7 +212,7 @@ public class CheckActivity extends Activity {
         startActivity(intent);
         finish();
     }
-
+//--------------------------------------------------------------------------------------------------XOR bitwise
     private int XOR(int a, int b){
         if(a==b){
             return 0;
@@ -169,4 +221,13 @@ public class CheckActivity extends Activity {
             return 1;
         }
     }
+//--------------------------------------------------------------------------------------------------Char into Integer
+    private int Atoi(char a){
+        if(a=='1'){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+//--------------------------------------------------------------------------------------------------
 }

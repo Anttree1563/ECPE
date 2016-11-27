@@ -70,7 +70,6 @@ public class SettingActivity extends Activity {
                     intent1.putExtra("data8", inputText8);
                     intent1.putExtra("divisor", inputText9);
 
-                    Log.d("MyTag", "inputText1:"+inputText1);
                     startActivity(intent1);
                     finish();
                 }
