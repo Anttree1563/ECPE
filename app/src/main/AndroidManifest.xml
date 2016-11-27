@@ -18,6 +18,7 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".SettingActivity"/>
         <activity android:name=".CheckActivity"/>
+        <activity android:name=".TransmitActivity"/>
     </application>
 
 </manifest>

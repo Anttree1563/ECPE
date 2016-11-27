@@ -51,6 +51,7 @@ public class CheckActivity extends Activity {
         data8 = intent1.getStringExtra("data8");
         divisor = intent1.getStringExtra("divisor");
 //--------------------------------------------------------------------------------------------------console log
+/*
         Log.d("MyTag", "data1:"+ data1);
         Log.d("MyTag", "data2:"+ data2);
         Log.d("MyTag", "data3:"+ data3);
@@ -60,10 +61,8 @@ public class CheckActivity extends Activity {
         Log.d("MyTag", "data7:"+ data7);
         Log.d("MyTag", "data8:"+ data8);
         Log.d("MyTag", "data9:"+ divisor);
-
-
+        */
 //--------------------------------------------------------------------------------------------------Array initializing
-
         /*String dataArray[] = {data1, data2, data2, data3, data4, data4, data5, data6, data7, data8};
         for(int j = 0; j<8; j++) {
             for (int i = 0; i < 12; i++) {
@@ -177,14 +176,14 @@ public class CheckActivity extends Activity {
     }
 //--------------------------------------------------------------------------------------------------
     private void initListener() {
-        textview8.setText("  "+codeWord[0]);
-        textview1.setText("  "+codeWord[1]);
-        textview2.setText("  "+codeWord[2]);
-        textview3.setText("  "+codeWord[3]);
-        textview4.setText("  "+codeWord[4]);
-        textview5.setText("  "+codeWord[5]);
-        textview6.setText("  "+codeWord[6]);
-        textview7.setText("  "+codeWord[7]);
+        textview1.setText("  "+codeWord[0]);
+        textview2.setText("  "+codeWord[1]);
+        textview3.setText("  "+codeWord[2]);
+        textview4.setText("  "+codeWord[3]);
+        textview5.setText("  "+codeWord[4]);
+        textview6.setText("  "+codeWord[5]);
+        textview7.setText("  "+codeWord[6]);
+        textview8.setText("  "+codeWord[7]);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -199,7 +198,16 @@ public class CheckActivity extends Activity {
             @Override
 
             public void onClick(View v) {
-                Intent intent3 = new Intent(CheckActivity.this, MainActivity.class);
+                Intent intent3 = new Intent(CheckActivity.this, TransmitActivity.class);
+                intent3.putExtra("codeword1", codeWord[0]);
+                intent3.putExtra("codeword2", codeWord[1]);
+                intent3.putExtra("codeword3", codeWord[2]);
+                intent3.putExtra("codeword4", codeWord[3]);
+                intent3.putExtra("codeword5", codeWord[4]);
+                intent3.putExtra("codeword6", codeWord[5]);
+                intent3.putExtra("codeword7", codeWord[6]);
+                intent3.putExtra("codeword8", codeWord[7]);
+                intent3.putExtra("divisor", divisor);
                 startActivity(intent3);
                 finish();
             }
