@@ -2,7 +2,10 @@ package com.truemind.ecpe;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 /**
@@ -10,6 +13,7 @@ import android.widget.Toast;
  */
 public class TransmitActivity extends Activity{
 
+    ImageButton transmit_local;
     String codeword1, codeword2, codeword3, codeword4, codeword5, codeword6, codeword7, codeword8, divisor;
     //String frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8;
     String frame[] = new String[8];
@@ -19,6 +23,7 @@ public class TransmitActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transmit);
         initView();
+        initListener();
 
         Intent intent = getIntent();
 
@@ -79,6 +84,28 @@ public class TransmitActivity extends Activity{
 */
 
     private void initView(){
+        transmit_local = (ImageButton)(findViewById(R.id.transmit_local));
+    }
+
+    private  void initListener(){
+
+        transmit_local.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TransmitActivity.this, MainActivity.class);
+                intent.putExtra("frame1", frame[0]);
+                intent.putExtra("frame2", frame[1]);
+                intent.putExtra("frame3", frame[2]);
+                intent.putExtra("frame4", frame[3]);
+                intent.putExtra("frame5", frame[4]);
+                intent.putExtra("frame6", frame[5]);
+                intent.putExtra("frame7", frame[6]);
+                intent.putExtra("frame8", frame[7]);
+                intent.putExtra("divisor", divisor);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
