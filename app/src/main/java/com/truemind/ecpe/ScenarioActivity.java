@@ -1,12 +1,14 @@
 package com.truemind.ecpe;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 /**
  * Created by 현석 on 2016-11-28.
@@ -17,31 +19,33 @@ public class ScenarioActivity extends Activity {
     ImageButton btn1, btn2;
     RadioButton rb4, rb8, rb12, rb16, rb20, rb24, rb28, rb32;
     int frameScenario[] = new int[8];
+    String frame[] = new String[8];
+    String divisor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_scenario);
         initView();
+
+        Intent intent = getIntent();
+
+        frame[0] = intent.getStringExtra("frame1");
+        frame[1] = intent.getStringExtra("frame2");
+        frame[2] = intent.getStringExtra("frame3");
+        frame[3] = intent.getStringExtra("frame4");
+        frame[4] = intent.getStringExtra("frame5");
+        frame[5] = intent.getStringExtra("frame6");
+        frame[6] = intent.getStringExtra("frame7");
+        frame[7] = intent.getStringExtra("frame8");
+        divisor = intent.getStringExtra("divisor");
+
         initListener();
     }
     public void initView(){
-        rb4 = (RadioButton) findViewById(R.id.radioButton4);
-        rb8 = (RadioButton) findViewById(R.id.radioButton8);
-        rb12 = (RadioButton) findViewById(R.id.radioButton12);
-        rb16 = (RadioButton) findViewById(R.id.radioButton16);
-        rb20 = (RadioButton) findViewById(R.id.radioButton20);
-        rb24 = (RadioButton) findViewById(R.id.radioButton24);
-        rb28 = (RadioButton) findViewById(R.id.radioButton28);
-        rb32 = (RadioButton) findViewById(R.id.radioButton32);
-        rb4.setChecked(true);
-        rb8.setChecked(true);
-        rb12.setChecked(true);
-        rb16.setChecked(true);
-        rb20.setChecked(true);
-        rb24.setChecked(true);
-        rb28.setChecked(true);
-        rb32.setChecked(true);
+        btn1 = (ImageButton) findViewById(R.id.scenario_btn1);
+        btn2 = (ImageButton) findViewById(R.id.scenario_btn2);
+
 
         rdg1 = (RadioGroup) findViewById(R.id.radioGroup1);
         rdg2 = (RadioGroup) findViewById(R.id.radioGroup2);
@@ -51,17 +55,35 @@ public class ScenarioActivity extends Activity {
         rdg6 = (RadioGroup) findViewById(R.id.radioGroup6);
         rdg7 = (RadioGroup) findViewById(R.id.radioGroup7);
         rdg8 = (RadioGroup) findViewById(R.id.radioGroup8);
-        frameScenario[0] = rdg1.getCheckedRadioButtonId();
-        frameScenario[1] = rdg2.getCheckedRadioButtonId();
-        frameScenario[2] = rdg3.getCheckedRadioButtonId();
-        frameScenario[3] = rdg4.getCheckedRadioButtonId();
-        frameScenario[4] = rdg5.getCheckedRadioButtonId();
-        frameScenario[5] = rdg6.getCheckedRadioButtonId();
-        frameScenario[6] = rdg7.getCheckedRadioButtonId();
-        frameScenario[7] = rdg8.getCheckedRadioButtonId();
     }
 
     public void initListener(){
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                frameScenario[0] = rdg1.getCheckedRadioButtonId();
+                frameScenario[1] = rdg2.getCheckedRadioButtonId();
+                frameScenario[2] = rdg3.getCheckedRadioButtonId();
+                frameScenario[3] = rdg4.getCheckedRadioButtonId();
+                frameScenario[4] = rdg5.getCheckedRadioButtonId();
+                frameScenario[5] = rdg6.getCheckedRadioButtonId();
+                frameScenario[6] = rdg7.getCheckedRadioButtonId();
+                frameScenario[7] = rdg8.getCheckedRadioButtonId();
+
+                for(int i = 0; i<8; i++) {
+                    Toast.makeText(getApplicationContext(), "frame" + i + ": " + frameScenario[i], Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
 
     }
 }

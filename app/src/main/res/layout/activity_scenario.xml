@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.truemind.ecpe.CheckActivity"
     android:orientation="vertical"
     android:background="@mipmap/scenario_back"
     android:weightSum="1">
@@ -597,7 +595,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.292"
-            android:id="@+id/check_btn1"
+            android:id="@+id/scenario_btn1"
             android:background="@drawable/setting_btn1" />
 
         <Space
@@ -610,7 +608,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.292"
-            android:id="@+id/check_btn2"
+            android:id="@+id/scenario_btn2"
             android:background="@drawable/setting_btn2" />
 
         <Space

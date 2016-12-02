@@ -92,7 +92,7 @@ public class TransmitActivity extends Activity{
         transmit_local.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TransmitActivity.this, MainActivity.class);
+                Intent intent = new Intent(TransmitActivity.this, ScenarioActivity.class);
                 intent.putExtra("frame1", frame[0]);
                 intent.putExtra("frame2", frame[1]);
                 intent.putExtra("frame3", frame[2]);
