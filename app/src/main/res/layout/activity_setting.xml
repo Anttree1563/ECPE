@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.truemind.ecpe.SettingActivity"
     android:orientation="vertical"
-    android:background="@mipmap/setting_back2"
+    android:background="@mipmap/setting2_back"
     android:weightSum="1">
     <Space
         android:layout_width="1px"
@@ -29,13 +29,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText1"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -65,13 +65,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText2"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -101,13 +101,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText3"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -137,13 +137,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText4"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -173,13 +173,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText5"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -209,13 +209,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText6"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -245,13 +245,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText7"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -281,13 +281,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="12"
-            android:maxLength="12"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText8"
             android:layout_gravity="bottom"
             android:layout_weight="0.4985"
-            android:hint="Data(12 bits)"/>
+            android:hint="Data(8 bits)"/>
 
         <Space
             android:layout_width="0px"
@@ -317,13 +317,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="5"
-            android:maxLength="5"
+            android:maxLength="8"
             android:digits="01"
             android:textSize="5pt"
             android:id="@+id/editText9"
             android:layout_gravity="bottom"
             android:layout_weight="0.2364"
-            android:hint="(5 bits)"/>
+            android:hint="(8 bits)"/>
 
         <Space
             android:layout_width="0px"

@@ -16,13 +16,17 @@ import android.widget.Toast;
  */
 public class CheckActivity extends Activity {
 
+
+    private final int dataLength = 8;
+    private final int crcLength = 7;
+
     ImageButton btn1, btn2;
     TextView textview1, textview2, textview3, textview4, textview5, textview6, textview7, textview8;
     String data1, data2, data3, data4, data5, data6, data7, data8, divisor;
 
-    int tempArray[] = new int[5];
+    int tempArray[] = new int[crcLength+1];
     int dataIntArray[][] = new int[8][];
-    int divisorIntArray[] = new int[5];
+    int divisorIntArray[] = new int[crcLength+1];
     int crcIntArray[][] = new int[8][];
     String codeWord[] = new String[8];
 
@@ -35,10 +39,10 @@ public class CheckActivity extends Activity {
         Intent intent1 = getIntent();
 
         for(int i=0;i<8;i++){
-            dataIntArray[i]=new int[17];
+            dataIntArray[i]=new int[dataLength+crcLength+1];
         }
         for(int i=0;i<8;i++){
-            crcIntArray[i]=new int[4];
+            crcIntArray[i]=new int[crcLength];
         }
 
         data1 = intent1.getStringExtra("data1");
@@ -73,43 +77,43 @@ public class CheckActivity extends Activity {
         //2번째, 3번째가 같거나(중복) 마지막이 다른것으로 바뀌는(스크램블)되는 현상 발견
         //따라서 dataArray스트링배열을 제거하고 for문을 사용하지 않는 경우 이런 현상이 제거됨.
         //원인은 나중에....(예상되는 원인은 for문의 속도와 데이터 연산 속도의 차이 때문으로 예상됨--> 버퍼 필요!)
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[0][i] = (Atoi(data1.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[1][i] = (Atoi(data2.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[2][i] = (Atoi(data3.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[3][i] = (Atoi(data4.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[4][i] = (Atoi(data5.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[5][i] = (Atoi(data6.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[6][i] = (Atoi(data7.charAt(i)));
         }
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < dataLength; i++) {
             dataIntArray[7][i] = (Atoi(data8.charAt(i)));
         }
         for(int j = 0; j<8; j++) {
-            for(int j2 = 0; j2<12; j2++) {
+            for(int j2 = 0; j2<dataLength; j2++) {
                 Log.d("MyTag", "dataIntArray" + j + ": " + dataIntArray[j][j2]);
             }
         }
 //--------------------------------------------------------------------------------------------------
         for(int j = 0; j<8; j++) {
-            for(int i = 12; i<17; i++){
+            for(int i = dataLength; i<(dataLength+crcLength+1); i++){
                 dataIntArray[j][i] = 0;
             }
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < crcLength+1; i++) {
             divisorIntArray[i] = (Integer.valueOf(divisor.charAt(i))-48);
         }
 
@@ -117,40 +121,47 @@ public class CheckActivity extends Activity {
             codeWord[i] = "";
         }
 
+        for (int i = 0; i < crcLength+1; i++) {
+            Log.d("MyTag", "divisor"+i+": "+ divisorIntArray[i]);
+        }
 //--------------------------------------------------------------------------------------------------CRC 부호화 과정
         for(int i = 0; i<8; i++) {//8개의 frame data에 전부 반복
 
-            for (int i2 = 0; i2 < 5; i2++) {
+            for (int i2 = 0; i2 < crcLength+1; i2++) {
                 tempArray[i2] = dataIntArray[i][i2];
+
+                Log.d("MyTag", "tA"+i2+": "+ tempArray[i2]);
             }
-            for (int j = 0; j < 12; j++) {
+            for (int j = 0; j < dataLength; j++) {
                 if (tempArray[0] == 1) {//나머지의 시작이 1일 때
-                    for (int k = 0; k < 4; k++) {
-                        tempArray[k] = XOR(tempArray[k + 1], divisorIntArray[k]);
-                        tempArray[4] = dataIntArray[i][j + 5];
+                    for (int k = 0; k < crcLength; k++) {
+                        tempArray[k] = XOR(tempArray[k + 1], divisorIntArray[k+1]);
                     }
                 } else {//나머지의 시작이 0일 때
-                    for (int k = 0; k < 4; k++) {
+                    for (int k = 0; k < crcLength; k++) {
                         tempArray[k] = XOR(tempArray[k + 1], 0);
-                        tempArray[4] = dataIntArray[i][j + 5];
                     }
                 }
+                for (int k = 0; k < crcLength; k++) {
+                    tempArray[crcLength] = dataIntArray[i][j + (crcLength+1)];
+                    Log.d("MyTag", "tA" + j + ": " + tempArray[k]);
+                }
             }
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < crcLength; j++) {
                 crcIntArray[i][j] = tempArray[j];
                 Log.d("MyTag", "crc:" + i + j + ": " + crcIntArray[i][j]);
             }
-            for(int j = 0; j<12; j++) {
+            for(int j = 0; j<dataLength; j++) {
                 Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j]);
             }
 //--------------------------------------------------------------------------------------------------코드워드 String으로
         }
 
         for(int i = 0; i<8; i++){
-            for(int j2 = 0; j2<12; j2++){
+            for(int j2 = 0; j2<dataLength; j2++){
                 codeWord[i] +=  dataIntArray[i][j2];
             }
-            for(int j3 = 0; j3<4; j3++){
+            for(int j3 = 0; j3<crcLength; j3++){
                 codeWord[i] +=  crcIntArray[i][j3];
             }
             Log.d("MyTag", "codeword"+i+": "+ codeWord[i]);

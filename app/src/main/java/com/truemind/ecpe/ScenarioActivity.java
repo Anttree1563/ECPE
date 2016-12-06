@@ -46,7 +46,6 @@ public class ScenarioActivity extends Activity {
         btn1 = (ImageButton) findViewById(R.id.scenario_btn1);
         btn2 = (ImageButton) findViewById(R.id.scenario_btn2);
 
-
         rdg1 = (RadioGroup) findViewById(R.id.radioGroup1);
         rdg2 = (RadioGroup) findViewById(R.id.radioGroup2);
         rdg3 = (RadioGroup) findViewById(R.id.radioGroup3);
@@ -68,19 +67,41 @@ public class ScenarioActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                frameScenario[0] = rdg1.getCheckedRadioButtonId();
-                frameScenario[1] = rdg2.getCheckedRadioButtonId();
-                frameScenario[2] = rdg3.getCheckedRadioButtonId();
-                frameScenario[3] = rdg4.getCheckedRadioButtonId();
-                frameScenario[4] = rdg5.getCheckedRadioButtonId();
-                frameScenario[5] = rdg6.getCheckedRadioButtonId();
-                frameScenario[6] = rdg7.getCheckedRadioButtonId();
-                frameScenario[7] = rdg8.getCheckedRadioButtonId();
+                frameScenario[0] = (rdg1.getCheckedRadioButtonId()-2131492954);
+                frameScenario[1] = (rdg2.getCheckedRadioButtonId()-2131492959);
+                frameScenario[2] = (rdg3.getCheckedRadioButtonId()-2131492964);
+                frameScenario[3] = (rdg4.getCheckedRadioButtonId()-2131492969);
+                frameScenario[4] = (rdg5.getCheckedRadioButtonId()-2131492974);
+                frameScenario[5] = (rdg6.getCheckedRadioButtonId()-2131492979);
+                frameScenario[6] = (rdg7.getCheckedRadioButtonId()-2131492984);
+                frameScenario[7] = (rdg8.getCheckedRadioButtonId()-2131492989);
 
                 for(int i = 0; i<8; i++) {
                     Toast.makeText(getApplicationContext(), "frame" + i + ": " + frameScenario[i], Toast.LENGTH_SHORT).show();
                 }
+                Intent intent = new Intent(ScenarioActivity.this, LogActivity.class);
 
+                intent.putExtra("divisor", divisor);
+                intent.putExtra("frame[0]", frame[0]);
+                intent.putExtra("frame[1]", frame[1]);
+                intent.putExtra("frame[2]", frame[2]);
+                intent.putExtra("frame[3]", frame[3]);
+                intent.putExtra("frame[4]", frame[4]);
+                intent.putExtra("frame[5]", frame[5]);
+                intent.putExtra("frame[6]", frame[6]);
+                intent.putExtra("frame[7]", frame[7]);
+
+                intent.putExtra("frameScenario[0]", frameScenario[0]);
+                intent.putExtra("frameScenario[1]", frameScenario[1]);
+                intent.putExtra("frameScenario[2]", frameScenario[2]);
+                intent.putExtra("frameScenario[3]", frameScenario[3]);
+                intent.putExtra("frameScenario[4]", frameScenario[4]);
+                intent.putExtra("frameScenario[5]", frameScenario[5]);
+                intent.putExtra("frameScenario[6]", frameScenario[6]);
+                intent.putExtra("frameScenario[7]", frameScenario[7]);
+
+                startActivity(intent);
+                finish();
             }
         });
 

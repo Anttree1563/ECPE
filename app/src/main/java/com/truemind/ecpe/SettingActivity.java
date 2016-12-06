@@ -14,6 +14,8 @@ import android.widget.Toast;
  */
 public class SettingActivity extends Activity {
 
+    private final int dataLength = 8;
+    private final int crcLength = 8;
     ImageButton btn1, btn2;
     EditText edittext1, edittext2, edittext3, edittext4, edittext5, edittext6, edittext7, edittext8, edittext9;
     String inputText1, inputText2, inputText3, inputText4, inputText5, inputText6, inputText7, inputText8, inputText9;
@@ -52,11 +54,11 @@ public class SettingActivity extends Activity {
                 inputText8 = edittext8.getText().toString();
                 inputText9 = edittext9.getText().toString();
 
-                if(inputText1.length()!=12||inputText2.length()!=12||inputText3.length()!=12||inputText4.length()!=12
-                        ||inputText5.length()!=12||inputText6.length()!=12||inputText7.length()!=12||inputText8.length()!=12) {
-                    Toast.makeText(getApplicationContext(), "Data must be 12 bits",Toast.LENGTH_SHORT).show();
-                }else if(inputText9.length()!=5){
-                    Toast.makeText(getApplicationContext(), "Divisor must be 5 bits",Toast.LENGTH_SHORT).show();
+                if(inputText1.length()!=dataLength||inputText2.length()!=dataLength||inputText3.length()!=dataLength||inputText4.length()!=dataLength
+                        ||inputText5.length()!=dataLength||inputText6.length()!=dataLength||inputText7.length()!=dataLength||inputText8.length()!=dataLength) {
+                    Toast.makeText(getApplicationContext(), "Data must be 8 bits",Toast.LENGTH_SHORT).show();
+                }else if(inputText9.length()!=crcLength){
+                    Toast.makeText(getApplicationContext(), "Divisor must be 8 bits",Toast.LENGTH_SHORT).show();
                 }else{
 
                     Intent intent1 = new Intent(SettingActivity.this, CheckActivity.class);
