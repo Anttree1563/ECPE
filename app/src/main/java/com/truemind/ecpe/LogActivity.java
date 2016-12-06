@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Random;
+
 /**
  * Created by 현석 on 2016-12-05.
  */
@@ -29,6 +31,8 @@ public class LogActivity extends Activity {
     int divisorIntArray[] = new int[crcLength+1];
     int crcIntArray[][] = new int[8][];
 
+
+    String frameCodeword[] = new String[8];
     String frame[] = new String[8];
     String frameScenario[] = new String[8];
     String divisor;
@@ -81,11 +85,34 @@ public class LogActivity extends Activity {
                 }
                 log += "error - (1) for success, (0) for error\n";
 
-                for(int i = 0; i < 8; i++) {
-                    int error = errorDetection(frame[i], i);
-                    crcResult = 0;
+                for(int i = 0; i < 7; i++) {
+                    setframeCodeword(i, 0);//---------------------------------------------0 for no error, 1 for error
+                    int error = errorDetection(i);
+                    crcResult = 0;//---------------------------------------------must initialize after errerDetection
                     log += "Frame"+"["+i+"] error : "+ error+"\n";
+
+                    for(int j2 = 0; j2<dataLength; j2++) {
+                        Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j2]);
+                    }
+
                 }
+                int i = 7;
+                setframeCodeword(i, 1);//---------------------------------------------0 for no error, 1 for error
+                int error = errorDetection(i);
+                crcResult = 0;//---------------------------------------------must initialize after errerDetection
+                log += "Frame"+"["+i+"] error : "+ error+"\n";
+
+                for(int j2 = 0; j2<dataLength; j2++) {
+                    Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j2]);
+                }
+                /*
+                for (int i = 0; i<8; i++) {
+                    switch (frameScenario[i]) {
+                        case 1 :
+
+                    }
+                }
+*/
 
 
                 threadhandler.sendEmptyMessage(0);
@@ -122,15 +149,38 @@ public class LogActivity extends Activity {
         }
     };
 
-    public void setDataIntArray(int n){
-        for (int i = 11; i < dataLength; i++) {
-            dataIntArray[n][i] = (Atoi(frame[n].charAt(i)));
+    public void setRightDataIntArray(int n){
+        for (int i = 0; i < dataLength+crcLength; i++) {
+            dataIntArray[n][i] = (Atoi(frameCodeword[n].charAt(i)));
         }
     }
 
-    private int errorDetection(String frame, int i) {
+    public void setErrorDataIntArray(int n){
+        for (int i = 0; i < dataLength+crcLength; i++) {
+            dataIntArray[n][i] = (Atoi(frameCodeword[n].charAt(i)));
+        }
+        double randomValue = Math.random();
+        int intValue = (int)(randomValue * (dataLength+crcLength-1));
 
-        setDataIntArray(i);
+        if(dataIntArray[n][intValue] == 1)
+            dataIntArray[n][intValue] = 0;
+        else
+            dataIntArray[n][intValue] = 1;
+    }
+
+    public void setframeCodeword(int n, int error){
+        frameCodeword[n] ="";
+        for(int i = 0; i<dataLength+crcLength; i++) {
+            frameCodeword[n] += frame[n].charAt(i+10);
+        }
+        if(error==1)
+            setErrorDataIntArray(n);
+        else
+            setRightDataIntArray(n);
+
+    }
+
+    private int errorDetection(int i) {
 
         for (int i2 = 0; i2 < crcLength+1; i2++) {
             tempArray[i2] = dataIntArray[i][i2];
