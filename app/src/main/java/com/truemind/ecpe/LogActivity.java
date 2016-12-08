@@ -30,11 +30,11 @@ public class LogActivity extends Activity {
     int dataIntArray[][] = new int[8][];
     int divisorIntArray[] = new int[crcLength+1];
     int crcIntArray[][] = new int[8][];
-
+    String slidingWindow[] = new String[3];
 
     String frameCodeword[] = new String[8];
     String frame[] = new String[8];
-    String frameScenario[] = new String[8];
+    int frameScenario[] = new int[8];
     String divisor;
     int crcResult;
 
@@ -70,21 +70,27 @@ public class LogActivity extends Activity {
                 frame[5] = intent.getStringExtra("frame[5]");
                 frame[6] = intent.getStringExtra("frame[6]");
                 frame[7] = intent.getStringExtra("frame[7]");
-                frameScenario[0] = intent.getStringExtra("frameScenario[0]");
-                frameScenario[1] = intent.getStringExtra("frameScenario[1]");
-                frameScenario[2] = intent.getStringExtra("frameScenario[2]");
-                frameScenario[3] = intent.getStringExtra("frameScenario[3]");
-                frameScenario[4] = intent.getStringExtra("frameScenario[4]");
-                frameScenario[5] = intent.getStringExtra("frameScenario[5]");
-                frameScenario[6] = intent.getStringExtra("frameScenario[6]");
-                frameScenario[7] = intent.getStringExtra("frameScenario[7]");
+                frameScenario[0] = intent.getIntExtra("frameScenario[0]", 4);
+                frameScenario[1] = intent.getIntExtra("frameScenario[1]", 4);
+                frameScenario[2] = intent.getIntExtra("frameScenario[2]", 4);
+                frameScenario[3] = intent.getIntExtra("frameScenario[3]", 4);
+                frameScenario[4] = intent.getIntExtra("frameScenario[4]", 4);
+                frameScenario[5] = intent.getIntExtra("frameScenario[5]", 4);
+                frameScenario[6] = intent.getIntExtra("frameScenario[6]", 4);
+                frameScenario[7] = intent.getIntExtra("frameScenario[7]", 4);
 
 
                 for(int i = 0; i<8; i++) {
                     log += "frame["+i+"]: "+frame[i]+"\n";
                 }
                 log += "error - (1) for success, (0) for error\n";
+                for(int i = 0; i < 8; i++) {
+                    work(frameScenario[i], i);
+                }
 
+
+
+/*
                 for(int i = 0; i < 7; i++) {
                     setframeCodeword(i, 0);//---------------------------------------------0 for no error, 1 for error
                     int error = errorDetection(i);
@@ -104,7 +110,7 @@ public class LogActivity extends Activity {
 
                 for(int j2 = 0; j2<dataLength; j2++) {
                     Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j2]);
-                }
+                }*/
                 /*
                 for (int i = 0; i<8; i++) {
                     switch (frameScenario[i]) {
@@ -180,6 +186,50 @@ public class LogActivity extends Activity {
 
     }
 
+
+    private int work(int frameScenario, int i){
+
+        int error = 0;
+
+        //need timer
+        switch(frameScenario){
+            case 1:
+                setframeCodeword(i, 0);
+                error = errorDetection(i);
+                log += "Frame"+"["+i+"] error : "+ error+"\n";
+                crcResult = 0;
+                break;
+            case 2:
+                setframeCodeword(i, 1);
+                error = errorDetection(i);
+                log += "Frame"+"["+i+"] error : "+ error+"\n";
+                crcResult = 0;
+                break;
+            case 3:
+                setframeCodeword(i, 0);
+                error = errorDetection(i);
+                log += "Frame"+"["+i+"] error : "+ error+"\n";
+                crcResult = 0;
+                break;
+            case 4:
+                setframeCodeword(i, 0);
+                error = errorDetection(i);
+                log += "Frame"+"["+i+"] error : "+ error+"\n";
+                crcResult = 0;
+                break;
+        }
+
+        //until here
+        return i;
+    }
+
+/*
+
+    private int slide(String frame, int i, ){
+        return
+    }
+*/
+
     private int errorDetection(int i) {
 
         for (int i2 = 0; i2 < crcLength+1; i2++) {
@@ -223,12 +273,21 @@ public class LogActivity extends Activity {
             return 1;
         }
     }
+
     private int Atoi(char a){
         if(a=='1'){
             return 1;
         }else{
             return 0;
         }
+    }
+
+    private String threeBitDtob(int a){
+
+        String binary = "";
+
+        return binary;
+
     }
 
 }
