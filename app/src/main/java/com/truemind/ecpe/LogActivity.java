@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by 현석 on 2016-12-05.
@@ -31,12 +33,16 @@ public class LogActivity extends Activity {
     int divisorIntArray[] = new int[crcLength+1];
     int crcIntArray[][] = new int[8][];
     String slidingWindow[] = new String[3];
+    String ACK[] = new String[8];
+    String receive[] = new String[8];
 
     String frameCodeword[] = new String[8];
     String frame[] = new String[8];
     int frameScenario[] = new int[8];
     String divisor;
-    int crcResult;
+    int crcResult[] = new int[8];
+    int error[] = new int[8];
+    private Timer timer;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,47 +84,31 @@ public class LogActivity extends Activity {
                 frameScenario[5] = intent.getIntExtra("frameScenario[5]", 4);
                 frameScenario[6] = intent.getIntExtra("frameScenario[6]", 4);
                 frameScenario[7] = intent.getIntExtra("frameScenario[7]", 4);
+                for(int i = 0; i<8; i++) {
+                    receive[i] = "";
+                    ACK[i] = "";
+                }
+                log += "------Receive/ACK initialized------\n";
+                for(int i = 0; i<8; i++) {
+                    log += "Receive["+i+"]: "+receive[i]+"\n";
+                }
+                for(int i = 0; i<8; i++) {
+                    log += "ACK["+i+"]: "+ACK[i]+"\n";
+                }
 
-
+                log += "------------------------------------\n";
                 for(int i = 0; i<8; i++) {
                     log += "frame["+i+"]: "+frame[i]+"\n";
                 }
+
+
+                log += "------------------------------------\n";
                 log += "error - (1) for success, (0) for error\n";
+                log += "----------------Start---------------\n";
                 for(int i = 0; i < 8; i++) {
                     work(frameScenario[i], i);
                 }
 
-
-
-/*
-                for(int i = 0; i < 7; i++) {
-                    setframeCodeword(i, 0);//---------------------------------------------0 for no error, 1 for error
-                    int error = errorDetection(i);
-                    crcResult = 0;//---------------------------------------------must initialize after errerDetection
-                    log += "Frame"+"["+i+"] error : "+ error+"\n";
-
-                    for(int j2 = 0; j2<dataLength; j2++) {
-                        Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j2]);
-                    }
-
-                }
-                int i = 7;
-                setframeCodeword(i, 1);//---------------------------------------------0 for no error, 1 for error
-                int error = errorDetection(i);
-                crcResult = 0;//---------------------------------------------must initialize after errerDetection
-                log += "Frame"+"["+i+"] error : "+ error+"\n";
-
-                for(int j2 = 0; j2<dataLength; j2++) {
-                    Log.d("MyTag", "dataIntArray" + i + ": " + dataIntArray[i][j2]);
-                }*/
-                /*
-                for (int i = 0; i<8; i++) {
-                    switch (frameScenario[i]) {
-                        case 1 :
-
-                    }
-                }
-*/
 
 
                 threadhandler.sendEmptyMessage(0);
@@ -187,48 +177,97 @@ public class LogActivity extends Activity {
     }
 
 
-    private int work(int frameScenario, int i){
-
-        int error = 0;
+    public void work(int frameScenario, int i){
 
         //need timer
         switch(frameScenario){
             case 1:
                 setframeCodeword(i, 0);
-                error = errorDetection(i);
-                log += "Frame"+"["+i+"] error : "+ error+"\n";
-                crcResult = 0;
+                error[i] = errorDetection(i);
+                Log.d("MyTag", "error"+ i + error[i]);
+                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
+                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
             case 2:
                 setframeCodeword(i, 1);
-                error = errorDetection(i);
-                log += "Frame"+"["+i+"] error : "+ error+"\n";
-                crcResult = 0;
+                error[i] = errorDetection(i);
+                Log.d("MyTag", "error"+ i + error[i]);
+                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
+                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
             case 3:
                 setframeCodeword(i, 0);
-                error = errorDetection(i);
-                log += "Frame"+"["+i+"] error : "+ error+"\n";
-                crcResult = 0;
+                error[i] = errorDetection(i);
+                Log.d("MyTag", "error"+ i + error[i]);
+                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
+                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
             case 4:
                 setframeCodeword(i, 0);
-                error = errorDetection(i);
-                log += "Frame"+"["+i+"] error : "+ error+"\n";
-                crcResult = 0;
+                error[i] = errorDetection(i);
+                Log.d("MyTag", "error"+ i + error[i]);
+                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
+                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
         }
 
+        sendError(frameScenario, i);
+
+        log+="\n\n";
         //until here
-        return i;
     }
 
-/*
 
-    private int slide(String frame, int i, ){
-        return
+
+    private void sendError(int frameScenario, int i) {
+        if(error[i]==1) {
+            if (frameScenario == 1) {
+                receive[i] = "0";
+                ACK[i] = "0";
+            } else if (frameScenario == 2) {
+                receive[i] = frame[i];
+                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+            } else if (frameScenario == 3) {
+                receive[i] = frame[i];
+                ACK[i] = "0";
+            } else if (frameScenario == 4) {
+                receive[i] = frame[i];
+                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+            }
+        }
+        else if(error[i]==0) {
+            receive[i] = "01111110" + threeBitDtob(i) + frameCodeword[i] + "01111110";
+            ACK[i] = "0";
+        }
+
+
+        log += "\n";
+        log += "Receive[" + i + "]: " + receive[i] + "\nACK[" + i + "]: " + ACK[i]+"\n";
+        sendError2(i);
     }
-*/
+//-----------------------------------------------------------------------
+
+    private void sendError2(int i) {
+        if(error[i]==1) {
+            if (receive[i] == "0" && ACK[i] == "0") {
+                log += "Frame[" + i + "]--- frame lost, resending ...\n";
+                receive[i] = frame[i];
+                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+            } else if (receive[i] != "0" && ACK[i] == "0") {
+                log += "Frame[" + i + "]--- ACK lost, resending ...\n";
+                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+            } else if (receive[i] != "0" && ACK[i] != "0")
+                log += "Frame[" + i + "]--- Success..!\n";
+        }
+        else if(error[i]==0) {
+            log += "Frame[" + i + "]--- Single bit error..\n";
+            receive[i] = frame[i];
+            ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+        }
+
+        log += "Receive[" + i + "]: " + receive[i] + "\nACK[" + i + "]: " + ACK[i]+"\n";
+    }
+
 
     private int errorDetection(int i) {
 
@@ -254,12 +293,12 @@ public class LogActivity extends Activity {
             crcIntArray[i][j] = tempArray[j];
         }
         for (int j = 0; j < crcLength; j++) {
-            crcResult += crcIntArray[i][j];
+            crcResult[i] += crcIntArray[i][j];
         }
 
-        Log.d("MyTag", "crcResult"+crcResult);
+        Log.d("MyTag", "crcResult["+i+"]"+crcResult[i]);
 
-        if(crcResult == 0)
+        if(crcResult[i] == 0)
             return 1;
         else
             return 0;
@@ -286,8 +325,11 @@ public class LogActivity extends Activity {
 
         String binary = "";
 
+        while(a>0){
+            binary += a % 2;
+            a = a / 2;
+        }
+
         return binary;
-
     }
-
 }
