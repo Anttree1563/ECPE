@@ -42,14 +42,14 @@ public class TransmitActivity extends Activity{
             frame[i] = "";
         }
 
-        frame[0] += "0111110"+"000"+codeword1+"01111110";
-        frame[1] += "0111110"+"001"+codeword2+"01111110";
-        frame[2] += "0111110"+"010"+codeword3+"01111110";
-        frame[3] += "0111110"+"011"+codeword4+"01111110";
-        frame[4] += "0111110"+"100"+codeword5+"01111110";
-        frame[5] += "0111110"+"101"+codeword6+"01111110";
-        frame[6] += "0111110"+"110"+codeword7+"01111110";
-        frame[7] += "0111110"+"111"+codeword8+"01111110";
+        frame[0] += "01111110"+"000"+codeword1+"01111110";
+        frame[1] += "01111110"+"001"+codeword2+"01111110";
+        frame[2] += "01111110"+"010"+codeword3+"01111110";
+        frame[3] += "01111110"+"011"+codeword4+"01111110";
+        frame[4] += "01111110"+"100"+codeword5+"01111110";
+        frame[5] += "01111110"+"101"+codeword6+"01111110";
+        frame[6] += "01111110"+"110"+codeword7+"01111110";
+        frame[7] += "01111110"+"111"+codeword8+"01111110";
 
 
         for(int i = 0; i<8; i++) {

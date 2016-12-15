@@ -64,10 +64,28 @@ public class LogActivity extends Activity {
                 Intent intent = getIntent();
 
                 divisor = intent.getStringExtra("divisor");
-                for(int i = 0; i < crcLength; i++) {
+                for(int i = 0; i < crcLength+1; i++) {
                     divisorIntArray[i] = Atoi(divisor.charAt(i));
+                    Log.d("MyTag", "divisorIntArray"+i+divisorIntArray[i]);
+                }
+                //get String method changed - due to memory allocate
+                //get frameCodeWord first, and assemble into frame in LogActivity
+                //(previously, assemble in TransmitActivity)
+                /*
+                frameCodeword[0] = intent.getStringExtra("frame[0]");
+                frameCodeword[1] = intent.getStringExtra("frame[1]");
+                frameCodeword[2] = intent.getStringExtra("frame[2]");
+                frameCodeword[3] = intent.getStringExtra("frame[3]");
+                frameCodeword[4] = intent.getStringExtra("frame[4]");
+                frameCodeword[5] = intent.getStringExtra("frame[5]");
+                frameCodeword[6] = intent.getStringExtra("frame[6]");
+                frameCodeword[7] = intent.getStringExtra("frame[7]");
+
+                for(int i = 0; i<8; i++) {
+                    frame[i] = "01111110" + threeBitDtob(i) + frameCodeword[i] + "01111110";
                 }
 
+                */
                 frame[0] = intent.getStringExtra("frame[0]");
                 frame[1] = intent.getStringExtra("frame[1]");
                 frame[2] = intent.getStringExtra("frame[2]");
@@ -76,6 +94,7 @@ public class LogActivity extends Activity {
                 frame[5] = intent.getStringExtra("frame[5]");
                 frame[6] = intent.getStringExtra("frame[6]");
                 frame[7] = intent.getStringExtra("frame[7]");
+
                 frameScenario[0] = intent.getIntExtra("frameScenario[0]", 4);
                 frameScenario[1] = intent.getIntExtra("frameScenario[1]", 4);
                 frameScenario[2] = intent.getIntExtra("frameScenario[2]", 4);
@@ -85,10 +104,12 @@ public class LogActivity extends Activity {
                 frameScenario[6] = intent.getIntExtra("frameScenario[6]", 4);
                 frameScenario[7] = intent.getIntExtra("frameScenario[7]", 4);
                 for(int i = 0; i<8; i++) {
-                    receive[i] = "";
-                    ACK[i] = "";
+                    receive[i] = "0";
+                    ACK[i] = "0";
                 }
-                log += "------Receive/ACK initialized------\n";
+                log += "------------------------------------------\n";
+                log += "------------Receive/ACK initialized-----------\n";
+                log += "------------------------------------------\n";
                 for(int i = 0; i<8; i++) {
                     log += "Receive["+i+"]: "+receive[i]+"\n";
                 }
@@ -96,18 +117,17 @@ public class LogActivity extends Activity {
                     log += "ACK["+i+"]: "+ACK[i]+"\n";
                 }
 
-                log += "------------------------------------\n";
+                log += "------------------------------------------\n";
                 for(int i = 0; i<8; i++) {
                     log += "frame["+i+"]: "+frame[i]+"\n";
                 }
 
 
-                log += "------------------------------------\n";
-                log += "error - (1) for success, (0) for error\n";
-                log += "----------------Start---------------\n";
-                for(int i = 0; i < 8; i++) {
-                    work(frameScenario[i], i);
-                }
+                log += "------------------------------------------\n";
+                //log += "error - (1) for success, (0) for error\n";
+                log += "--------------------Start------------------\n";
+                log += "------------------------------------------\n";
+                sliding(0);
 
 
 
@@ -144,14 +164,22 @@ public class LogActivity extends Activity {
             progressdialog.dismiss();
         }
     };
-
-    public void setRightDataIntArray(int n){
+    //-------------------------------------------------------------------------------------------------------
+//
+// frameCodeWord - codeword of frame
+//   flag    seq    data     CRC     flag
+// 01111110  000  00000000 0000000 01111110
+//               | frameCodeWord |
+// DataIntArray - integer type codeWord
+//
+//-------------------------------------------------------------------------------------------------------
+    private void setRightDataIntArray(int n){
         for (int i = 0; i < dataLength+crcLength; i++) {
             dataIntArray[n][i] = (Atoi(frameCodeword[n].charAt(i)));
         }
     }
 
-    public void setErrorDataIntArray(int n){
+    private void setErrorDataIntArray(int n){
         for (int i = 0; i < dataLength+crcLength; i++) {
             dataIntArray[n][i] = (Atoi(frameCodeword[n].charAt(i)));
         }
@@ -164,10 +192,11 @@ public class LogActivity extends Activity {
             dataIntArray[n][intValue] = 1;
     }
 
-    public void setframeCodeword(int n, int error){
+    private void setframeCodeword(int n, int error){
+
         frameCodeword[n] ="";
         for(int i = 0; i<dataLength+crcLength; i++) {
-            frameCodeword[n] += frame[n].charAt(i+10);
+            frameCodeword[n] += frame[n].charAt(i+11);
         }
         if(error==1)
             setErrorDataIntArray(n);
@@ -175,7 +204,11 @@ public class LogActivity extends Activity {
             setRightDataIntArray(n);
 
     }
-
+//-------------------------------------------------------------------------------------------------------
+//
+// Now initiate sending/receiving process, according to scenario checked behind.
+//
+//-------------------------------------------------------------------------------------------------------
 
     public void work(int frameScenario, int i){
 
@@ -186,40 +219,41 @@ public class LogActivity extends Activity {
                 error[i] = errorDetection(i);
                 Log.d("MyTag", "error"+ i + error[i]);
                 Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
             case 2:
                 setframeCodeword(i, 1);
                 error[i] = errorDetection(i);
                 Log.d("MyTag", "error"+ i + error[i]);
                 Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
             case 3:
                 setframeCodeword(i, 0);
                 error[i] = errorDetection(i);
                 Log.d("MyTag", "error"+ i + error[i]);
                 Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
             case 4:
                 setframeCodeword(i, 0);
                 error[i] = errorDetection(i);
                 Log.d("MyTag", "error"+ i + error[i]);
                 Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
                 break;
         }
 
-        sendError(frameScenario, i);
+        sendInitiate(frameScenario, i);
 
-        log+="\n\n";
+        log+="\n";
         //until here
     }
 
 
 
-    private void sendError(int frameScenario, int i) {
+    private void sendInitiate(int frameScenario, int i) {
+//--------------------------------------------------------------------------------------------------Send/receive according to scenario
         if(error[i]==1) {
             if (frameScenario == 1) {
                 receive[i] = "0";
@@ -240,32 +274,262 @@ public class LogActivity extends Activity {
             ACK[i] = "0";
         }
 
-
         log += "\n";
         log += "Receive[" + i + "]: " + receive[i] + "\nACK[" + i + "]: " + ACK[i]+"\n";
-        sendError2(i);
-    }
-//-----------------------------------------------------------------------
-
-    private void sendError2(int i) {
+        /*
+        if (receive[i] != "0" && ACK[i] != "0" && error[i] == 1)
+            log += "Frame[" + i + "]--- Success..!\n";
+        else
+            log += "Frame[" + i + "]--- Error..!\n";
+*/
+//---------------------------------------------------------------------------------------------------Find whether error or success
         if(error[i]==1) {
             if (receive[i] == "0" && ACK[i] == "0") {
-                log += "Frame[" + i + "]--- frame lost, resending ...\n";
+                log += "Frame[" + i + "]--- Frame lost...\n";
+
+            } else if (receive[i] != "0" && ACK[i] == "0") {
+                log += "Frame[" + i + "]--- ACK lost...\n";
+
+            } else if (receive[i] != "0" && ACK[i] != "0" && error[i] == 1)
+                log += "Frame[" + i + "]--- Success..!\n";
+        }
+        else if(error[i]==0) {
+            log += "Frame[" + i + "]--- Single bit error..\n";
+
+        }
+//--------------------------------------------------------------------------------------------------
+    }
+
+
+    private void sliding(int i) {
+//-------------------------------------------------------------------------------------------------------
+//
+// SELECTIVE_REPEAT
+//
+//-------------------------------------------------------------------------------------------------------
+/*
+        while((i+2) < frame.length){
+            int window = 0;
+            slidingWindow[0] = "frame[" + i + "]";
+            slidingWindow[1] = "frame[" + (i + 1) + "]";
+            if(i+2 != 8) {
+                slidingWindow[2] = "frame[" + (i + 2) + "]";
+            }else{
+                slidingWindow[2] = "NULL";
+            }
+
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+            work(frameScenario[i], i);
+            work(frameScenario[i + 1], i + 1);
+            work(frameScenario[i + 2], i + 2);
+
+            if (ACK[i] == "0") {
+                window = i;
+            }
+            else if (ACK[i + 1] == "0") {
+                window = i + 1;
+            }
+            else if (ACK[i + 2] == "0") {
+                window = i + 2;
+            }
+            else if(ACK[i] != "0" && ACK[i+1] != "0" && ACK[i+2] != "0")
+                window = i+3;
+
+            log += "\n";
+
+            slidingWindow[0] = "frame[" + window + "]";
+            slidingWindow[1] = "frame[" + (window + 1) + "]";
+            slidingWindow[2] = "frame[" + (window + 2) + "]";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+
+            if((window-i)==0) {
+                errorRecovery(window);
+                errorRecovery(window+1);
+                errorRecovery(window+2);
+                i = window+1;
+            }
+            if((window-i)==1) {
+                errorRecovery(window);
+                errorRecovery(window+1);
+                i = window+1;
+            }
+            if((window-i)==2) {
+                errorRecovery(window);
+                i = window+1;
+            }
+            if((window-i)==3) {
+                i = window;
+            }
+        }
+
+
+        if(i==6){
+            int window = 0;
+            slidingWindow[0] = "frame[" + i + "]";
+            slidingWindow[1] = "frame[" + (i + 1) + "]";
+            slidingWindow[2] = "NULL";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+            work(frameScenario[i], i);
+            work(frameScenario[i + 1], i + 1);
+
+            if (ACK[i] == "0") {
+                window = i;
+            }
+            else if (ACK[i + 1] == "0") {
+                window = i + 1;
+            }
+            if((window-i)==0) {
+                errorRecovery(window);
+                errorRecovery(window+1);
+            }
+            if((window-i)==1) {
+                errorRecovery(window);
+            }
+            slidingWindow[0] = "NULL";
+            slidingWindow[1] = "NULL";
+            slidingWindow[2] = "NULL";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+        }
+
+        else if(i==7){
+            int window = 0;
+            slidingWindow[0] = "frame[" + i + "]";
+            slidingWindow[1] = "NULL";
+            slidingWindow[2] = "NULL";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+
+            work(frameScenario[i], i);
+
+            if (ACK[i] == "0") {
+                window = i;
+            }
+            if((window-i)==0) {
+                errorRecovery(window);
+            }
+            slidingWindow[0] = "NULL";
+            slidingWindow[1] = "NULL";
+            slidingWindow[2] = "NULL";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+        }*/
+//-------------------------------------------------------------------------------------------------------
+//
+// GO_BACK_N
+//
+//-------------------------------------------------------------------------------------------------------
+        while((i+2) < frame.length){
+            int window = 0;
+            slidingWindow[0] = "frame[" + i + "]";
+            slidingWindow[1] = "frame[" + (i + 1) + "]";
+            if(i+2 != 8) {
+                slidingWindow[2] = "frame[" + (i + 2) + "]";
+            }else{
+                slidingWindow[2] = "NULL";
+            }
+
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+            work(frameScenario[i], i);
+            work(frameScenario[i + 1], i + 1);
+            work(frameScenario[i + 2], i + 2);
+
+            if (ACK[i] == "0") {
+                window = i;
+            }
+            else if (ACK[i + 1] == "0") {
+                window = i + 1;
+            }
+            else if (ACK[i + 2] == "0") {
+                window = i + 2;
+            }
+            else if(ACK[i] != "0" && ACK[i+1] != "0" && ACK[i+2] != "0")
+                window = i+3;
+
+            log += "\n";
+
+            if((window-i)==0) {
+                errorRecovery(window);
+                errorRecovery(window+1);
+                errorRecovery(window+2);
+            }
+            if((window-i)==1) {
+                errorRecovery(window);
+                errorRecovery(window+1);
+            }
+            if((window-i)==2) {
+                errorRecovery(window);
+            }
+            i += 3;
+            log += "\n";
+        }
+
+
+        if(i==6){
+            int window = 0;
+            slidingWindow[0] = "frame[" + i + "]";
+            slidingWindow[1] = "frame[" + (i + 1) + "]";
+            slidingWindow[2] = "NULL";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+            work(frameScenario[i], i);
+            work(frameScenario[i + 1], i + 1);
+
+            if (ACK[i] == "0") {
+                window = i;
+            }
+            else if (ACK[i + 1] == "0") {
+                window = i + 1;
+            }
+            if((window-i)==0) {
+                errorRecovery(window);
+                errorRecovery(window+1);
+            }
+            if((window-i)==1) {
+                errorRecovery(window);
+            }
+            slidingWindow[0] = "NULL";
+            slidingWindow[1] = "NULL";
+            slidingWindow[2] = "NULL";
+            for(int j = 0; j<3; j++) {
+                log += "slidingWindow["+j+"]: " + slidingWindow[j] + "\n";
+            }
+        }
+
+
+    }
+    //-----------------------------------------------------------------------
+    private void errorRecovery(int i) {
+        if(error[i]==1) {
+            if (receive[i] == "0" && ACK[i] == "0") {
+                log += "Frame[" + i + "]--- Frame lost, resending ...\n";
                 receive[i] = frame[i];
                 ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
             } else if (receive[i] != "0" && ACK[i] == "0") {
                 log += "Frame[" + i + "]--- ACK lost, resending ...\n";
                 ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
-            } else if (receive[i] != "0" && ACK[i] != "0")
+            } else if (receive[i] != "0" && ACK[i] != "0" && error[i] == 1)
                 log += "Frame[" + i + "]--- Success..!\n";
         }
         else if(error[i]==0) {
-            log += "Frame[" + i + "]--- Single bit error..\n";
+            log += "Frame[" + i + "]--- Single bit error, resending ...\n";
             receive[i] = frame[i];
             ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
         }
 
-        log += "Receive[" + i + "]: " + receive[i] + "\nACK[" + i + "]: " + ACK[i]+"\n";
+        log += "Receive[" + i + "]: " + receive[i] + "\nACK[" + i + "]: " + ACK[i]+"\n\n";
     }
 
 
@@ -273,6 +537,8 @@ public class LogActivity extends Activity {
 
         for (int i2 = 0; i2 < crcLength+1; i2++) {
             tempArray[i2] = dataIntArray[i][i2];
+            Log.d("MyTag", "data" + ": " + dataIntArray[i][i2]);
+            Log.d("MyTag", "tA" + i2 + ": " + tempArray[i2]);
         }
         for (int j = 0; j < dataLength; j++) {
             if (tempArray[0] == 1) {//나머지의 시작이 1일 때
@@ -284,8 +550,8 @@ public class LogActivity extends Activity {
                     tempArray[k] = XOR(tempArray[k + 1], 0);
                 }
             }
+            tempArray[crcLength] = dataIntArray[i][j + (crcLength+1)];
             for (int k = 0; k < crcLength; k++) {
-                tempArray[crcLength] = dataIntArray[i][j + (crcLength+1)];
                 Log.d("MyTag", "tA" + j + ": " + tempArray[k]);
             }
         }
@@ -324,12 +590,25 @@ public class LogActivity extends Activity {
     private String threeBitDtob(int a){
 
         String binary = "";
-
-        while(a>0){
-            binary += a % 2;
-            a = a / 2;
+        int b[] = new int[4];
+        for(int i = 0; i < 3; i++){
+            b[i] = 0;
         }
+        int c = 0;
+        int d = 0;
+        int s = 0;
 
+        do{
+            c = (int)a/2;
+            d = a - c*2;
+            s += 1;
+            b[s] = d;
+            a = c;
+        }while(c!=0);
+
+        for(int i =3; i>0; i--){
+            binary += b[i];
+        }
         return binary;
     }
 }
