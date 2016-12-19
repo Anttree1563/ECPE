@@ -208,39 +208,52 @@ public class LogActivity extends Activity {
 //-------------------------------------------------------------------------------------------------------
 
     public void work(int frameScenario, int i){
+        final int frameScenarioFinal = frameScenario;
+        final int iFinal = i;
+        long tempTime = System.currentTimeMillis();
+        /*TimerTask task = new TimerTask() {
+            public void run() {
+                try {*/
+                    //need timer
 
-        //need timer
-        switch(frameScenario){
-            case 1:
-                setframeCodeword(i, 0);
-                error[i] = errorDetection(i);
-                Log.d("MyTag", "error"+ i + error[i]);
-                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
-                break;
-            case 2:
-                setframeCodeword(i, 1);
-                error[i] = errorDetection(i);
-                Log.d("MyTag", "error"+ i + error[i]);
-                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
-                break;
-            case 3:
-                setframeCodeword(i, 0);
-                error[i] = errorDetection(i);
-                Log.d("MyTag", "error"+ i + error[i]);
-                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
-                break;
-            case 4:
-                setframeCodeword(i, 0);
-                error[i] = errorDetection(i);
-                Log.d("MyTag", "error"+ i + error[i]);
-                Log.d("MyTag", "frameCodeword"+ i + frameCodeword[i]);
-                //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
-                break;
-        }
-
+                    switch (frameScenario) {
+                        case 1:
+                            setframeCodeword(i, 0);
+                            error[i] = errorDetection(i);
+                            Log.d("MyTag", "error" + i + error[i]);
+                            Log.d("MyTag", "frameCodeword" + i + frameCodeword[i]);
+                            //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                            break;
+                        case 2:
+                            setframeCodeword(i, 1);
+                            error[i] = errorDetection(i);
+                            Log.d("MyTag", "error" + i + error[i]);
+                            Log.d("MyTag", "frameCodeword" + i + frameCodeword[i]);
+                            //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                            break;
+                        case 3:
+                            setframeCodeword(i, 0);
+                            error[i] = errorDetection(i);
+                            Log.d("MyTag", "error" + i + error[i]);
+                            Log.d("MyTag", "frameCodeword" + i + frameCodeword[i]);
+                            //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                            break;
+                        case 4:
+                            setframeCodeword(i, 0);
+                            error[i] = errorDetection(i);
+                            Log.d("MyTag", "error" + i + error[i]);
+                            Log.d("MyTag", "frameCodeword" + i + frameCodeword[i]);
+                            //log += "Frame"+"["+i+"] error : "+ error[i]+"\n";
+                            break;
+                    }/*
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Timer mTimer = new Timer();
+        mTimer.schedule(task,300);
+*/
         sendInitiate(frameScenario, i);
 
         log+="\n";
@@ -329,13 +342,13 @@ public class LogActivity extends Activity {
             if (ACK[i] == "0") {
                 window = i;
             }
-            else if (ACK[i + 1] == "0") {
+            if (ACK[i + 1] == "0") {
                 window = i + 1;
             }
-            else if (ACK[i + 2] == "0") {
+            if (ACK[i + 2] == "0") {
                 window = i + 2;
             }
-            else if(ACK[i] != "0" && ACK[i+1] != "0" && ACK[i+2] != "0")
+            if(ACK[i] != "0" && ACK[i+1] != "0" && ACK[i+2] != "0")
                 window = i+3;
 
             log += "\n";

@@ -59,6 +59,11 @@ public class SettingActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Data must be 8 bits",Toast.LENGTH_SHORT).show();
                 }else if(inputText9.length()!=crcLength){
                     Toast.makeText(getApplicationContext(), "Divisor must be 8 bits",Toast.LENGTH_SHORT).show();
+                }else if(continuousOnes(inputText1) == 1 || continuousOnes(inputText2) == 1 ||
+                        continuousOnes(inputText3) == 1 || continuousOnes(inputText4) == 1 ||
+                        continuousOnes(inputText5) == 1 || continuousOnes(inputText6) == 1 ||
+                        continuousOnes(inputText7) == 1 || continuousOnes(inputText8) == 1) {
+                    Toast.makeText(getApplicationContext(), "5 seccessive 1s are not allowed", Toast.LENGTH_SHORT).show();
                 }else{
 
                     Intent intent1 = new Intent(SettingActivity.this, CheckActivity.class);
@@ -78,6 +83,28 @@ public class SettingActivity extends Activity {
             }
 
         });
+    }
+    private int continuousOnes(String inputText){
+        String tempStr[] = new String[4];
+        int result = 0;
+
+        for(int i = 0; i<4; i++) {
+            tempStr[i] = "";
+        }
+
+        for(int i = 0; i<4; i++) {
+            for (int j = 0; j<5; j++) {
+                tempStr[i] += inputText.charAt(i+j);
+            }
+        }
+
+        for(int i = 0; i<4; i++) {
+            Log.d("MyTag", "tempStr" + i + tempStr[i]);
+            if(tempStr[i].equals("11111"))
+                result = 1;
+        }
+        Log.d("MyTag", "result"+result);
+        return result;
     }
 
     private void initView() {
