@@ -70,7 +70,7 @@ public class LogActivity extends Activity {
                 }
                 //get String method changed - due to memory allocate
                 //get frameCodeWord first, and assemble into frame in LogActivity
-                //(previously, assemble in TransmitActivity)
+                //(previously, assembled in TransmitActivity)
                 /*
                 frameCodeword[0] = intent.getStringExtra("frame[0]");
                 frameCodeword[1] = intent.getStringExtra("frame[1]");
@@ -274,13 +274,13 @@ public class LogActivity extends Activity {
                 ACK[i] = "0";
             } else if (frameScenario == 2) {
                 receive[i] = frame[i];
-                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+                ACK[i] = "01111110" + threeBitDtob(i+1) + "01111110";
             } else if (frameScenario == 3) {
                 receive[i] = frame[i];
                 ACK[i] = "0";
             } else if (frameScenario == 4) {
                 receive[i] = frame[i];
-                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+                ACK[i] = "01111110" + threeBitDtob(i+1) + "01111110";
             }
         }
         else if(error[i]==0) {
@@ -533,17 +533,17 @@ public class LogActivity extends Activity {
             if (receive[i] == "0" && ACK[i] == "0") {
                 log += "Frame[" + i + "]--- Frame lost, resending ...\n";
                 receive[i] = frame[i];
-                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+                ACK[i] = "01111110" + threeBitDtob(i+1) + "01111110";
             } else if (receive[i] != "0" && ACK[i] == "0") {
                 log += "Frame[" + i + "]--- ACK lost, resending ...\n";
-                ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+                ACK[i] = "01111110" + threeBitDtob(i+1) + "01111110";
             } else if (receive[i] != "0" && ACK[i] != "0" && error[i] == 1)
                 log += "Frame[" + i + "]--- Success..!\n";
         }
         else if(error[i]==0) {
             log += "Frame[" + i + "]--- Single bit error, resending ...\n";
             receive[i] = frame[i];
-            ACK[i] = "01111110" + threeBitDtob(i) + "01111110";
+            ACK[i] = "01111110" + threeBitDtob(i+1) + "01111110";
         }
 
         log += "Receive[" + i + "]: " + receive[i] + "\nACK[" + i + "]: " + ACK[i]+"\n\n";
@@ -604,7 +604,7 @@ public class LogActivity extends Activity {
         }
     }
 
-    private String threeBitDtob(int a){
+    /*private String threeBitDtob(int a){
 
         String binary = "";
         int b[] = new int[4];
@@ -625,6 +625,23 @@ public class LogActivity extends Activity {
 
         for(int i =3; i>0; i--){
             binary += b[i];
+        }
+        return binary;
+    }*/
+    private String threeBitDtob(int a){
+
+        String binary = "";
+
+        switch(a){
+            case 0: {binary = "000"; break;}
+            case 1: {binary = "001"; break;}
+            case 2: {binary = "010"; break;}
+            case 3: {binary = "011"; break;}
+            case 4: {binary = "100"; break;}
+            case 5: {binary = "101"; break;}
+            case 6: {binary = "110"; break;}
+            case 7: {binary = "111"; break;}
+            default: {binary = "000"; break;}
         }
         return binary;
     }
